@@ -1,0 +1,364 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --aa-primary: #1a73e8;
+  --aa-primary-hover: #155ec1;
+  --aa-accent: #059669;
+  --aa-accent-hover: #047857;
+  --aa-text-strong: #0f172a;
+  --aa-text-muted: #475569;
+  --aa-surface: #ffffff;
+  --aa-surface-soft: #f5f7fb;
+  --aa-border: #e2e8f0;
+  --aa-radius-lg: 0.75rem;
+  --aa-radius-xl: 1rem;
+  --aa-radius-2xl: 1.25rem;
+  --aa-shadow-sm: 0 8px 20px -14px rgba(15, 23, 42, 0.2);
+  --aa-shadow-md: 0 18px 45px -28px rgba(15, 23, 42, 0.24);
+  --aa-shadow-lg: 0 24px 60px -30px rgba(15, 23, 42, 0.28);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-black: #080808;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sora);
+  --font-body: var(--font-manrope);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #080808;
+    --foreground: #ededed;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Slightly less offset on narrow screens (shorter sticky header). */
+  scroll-padding-top: clamp(4rem, 12vw, 5rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), sans-serif;
+  line-height: 1.5;
+}
+
+/* In @layer base so Tailwind font-weight utilities (font-bold, etc.) win on <p> and headings. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading), sans-serif;
+  }
+
+  p {
+    font-family: var(--font-body), sans-serif;
+    /* Slightly heavier than default for readability; color stays from Tailwind/utilities */
+    font-weight: 500;
+  }
+}
+
+a {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aa-container {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+.aa-section {
+  padding-inline: 1.5rem;
+  padding-block: 3.5rem;
+}
+
+@media (min-width: 640px) {
+  .aa-section {
+    padding-block: 5rem;
+  }
+}
+
+.aa-kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--aa-primary);
+}
+
+.aa-title {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(1.875rem, 3.4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--aa-text-strong);
+}
+
+.aa-subtitle {
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--aa-text-muted);
+}
+
+.aa-btn-primary {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--aa-radius-xl);
+  background: var(--aa-primary);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 12px 30px -16px rgba(26, 115, 232, 0.6);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.aa-btn-primary:hover {
+  background: var(--aa-primary-hover);
+}
+
+.aa-btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 12px 30px -16px rgba(26, 115, 232, 0.6),
+    0 0 0 2px #fff, 0 0 0 4px var(--aa-primary);
+}
+
+.aa-btn-secondary {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--aa-radius-xl);
+  border: 1px solid color-mix(in srgb, var(--aa-primary) 22%, #ffffff);
+  background: #ffffff;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--aa-primary);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.aa-btn-secondary:hover {
+  background: color-mix(in srgb, var(--aa-primary) 5%, #ffffff);
+}
+
+.aa-btn-secondary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--aa-primary);
+}
+
+.aa-btn-accent {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--aa-radius-xl);
+  background: var(--aa-accent);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 12px 30px -16px rgba(5, 150, 105, 0.55);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.aa-btn-accent:hover {
+  background: var(--aa-accent-hover);
+}
+
+.aa-btn-accent:focus-visible {
+  outline: none;
+  box-shadow: 0 12px 30px -16px rgba(5, 150, 105, 0.55),
+    0 0 0 2px #fff, 0 0 0 4px var(--aa-accent);
+}
+
+/** Light button for saturated / dark brand backgrounds (e.g. CTA gradient). */
+.aa-btn-inverse {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--aa-radius-xl);
+  background: #ffffff;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--aa-primary);
+  box-shadow: 0 12px 30px -16px rgba(255, 255, 255, 0.45);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.aa-btn-inverse:hover {
+  background: #f1f5f9;
+}
+
+.aa-btn-inverse:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--aa-primary);
+}
+
+.aa-card {
+  border-radius: var(--aa-radius-2xl);
+  border: 1px solid var(--aa-border);
+  background: var(--aa-surface);
+  box-shadow: var(--aa-shadow-md);
+}
+
+@keyframes tech-logo-loop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - (var(--logo-gap) / 2)));
+  }
+}
+
+.tech-logo-track {
+  gap: var(--logo-gap);
+  animation: tech-logo-loop var(--loop-duration) linear infinite;
+  will-change: transform;
+}
+
+.tech-logo-track--reverse {
+  animation-direction: reverse;
+}
+
+.tech-logo-loop--slow-on-hover:hover .tech-logo-track {
+  animation-duration: var(--hover-loop-duration);
+}
+
+.tech-logo-loop--pause-on-hover:hover .tech-logo-track {
+  animation-play-state: paused;
+}
+
+/* Team marquee: hide scrollbar but keep overflow scroll for grab / wheel (see team.tsx). */
+.team-marquee-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.team-marquee-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes solution-story-pan {
+  0% {
+    transform: translateX(0%);
+  }
+  48% {
+    transform: translateX(-33.33%);
+  }
+  100% {
+    transform: translateX(-66.66%);
+  }
+}
+
+@keyframes solution-scene-reveal {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: translateY(12px) scale(0.985);
+  }
+  20%,
+  74% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes solution-particle-run {
+  0% {
+    left: 7%;
+  }
+  100% {
+    left: 90%;
+  }
+}
+
+@keyframes solution-pulse-dot {
+  0%,
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.28);
+  }
+}
+
+.solution-story-track {
+  animation: solution-story-pan 16s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.solution-scene {
+  opacity: 0.86;
+  transform: translateY(6px) scale(0.99);
+  animation: solution-scene-reveal 8s ease-in-out infinite;
+}
+
+.solution-scene-delay-1 {
+  animation-delay: 0s;
+}
+
+.solution-scene-delay-2 {
+  animation-delay: 1.4s;
+}
+
+.solution-scene-delay-3 {
+  animation-delay: 2.8s;
+}
+
+.solution-pulse-dot {
+  animation: solution-pulse-dot 2.2s ease-in-out infinite;
+}
+
+.solution-data-particle {
+  animation: solution-particle-run 6s linear infinite;
+  box-shadow: 0 0 20px rgba(79, 142, 255, 0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solution-story-track,
+  .solution-scene,
+  .solution-pulse-dot,
+  .solution-data-particle {
+    animation: none !important;
+  }
+}
+
+/* Gallery Swiper: default Swiper uses height:100% on slides without a fixed .swiper height → collapsed slides and invisible `next/image` fill */
+.gallery-swiper-root .swiper-wrapper {
+  height: auto;
+  align-items: flex-start;
+}
+
+.gallery-swiper-root .swiper-slide {
+  height: auto;
+}
+

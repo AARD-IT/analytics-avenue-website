@@ -19,11 +19,11 @@ const fontBody = "font-[family-name:var(--font-body)]";
 const HEADING_PRIMARY = "var(--aa-primary)";
 
 const TAB_ICON_CLASS =
-  "h-6 w-auto max-h-6 max-w-[5.25rem] shrink-0 object-contain object-center sm:h-7 sm:max-h-7 sm:max-w-[6.5rem]";
+  "h-5 w-auto max-h-5 max-w-[5.25rem] shrink-0 object-contain object-center sm:h-7 sm:max-h-7 sm:max-w-[6.5rem]";
 
 /** Slightly larger MySQL mark so it matches visual weight of other tab icons */
 const TAB_ICON_CLASS_MYSQL =
-  "h-8 w-auto max-h-8 max-w-[7rem] shrink-0 object-contain object-center sm:h-9 sm:max-h-9 sm:max-w-[8rem]";
+  "h-7 w-auto max-h-7 max-w-[7rem] shrink-0 object-contain object-center sm:h-9 sm:max-h-9 sm:max-w-[8rem]";
 
 const TAB_FOCUS =
   "outline-none focus-visible:ring-2 focus-visible:ring-[var(--aa-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
@@ -390,7 +390,7 @@ const FAQ_BOX_CLASS =
 function LearnAccordionChevron({ open }: { open: boolean }) {
   return (
     <span
-      className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-400 sm:h-10 sm:w-10"
+      className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-400 sm:h-10 sm:w-10"
       aria-hidden
     >
       <svg
@@ -548,7 +548,7 @@ const Curriculam = () => {
             <header className="mx-auto  text-center">
               <h2
                 id="curriculum-heading"
-                className={`text-3xl w-full font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl ${fontHeading}`}
+                className={`text-[1.9rem] w-full font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl ${fontHeading}`}
               >
                 Empowered{" "}
                 <span
@@ -597,7 +597,7 @@ const Curriculam = () => {
                       className="flex flex-col items-center justify-center px-4 py-8 sm:px-6 sm:py-0 sm:even:border-l sm:even:border-white/20 lg:border-l-0 lg:px-8 lg:py-2"
                     >
                       <p
-                        className={`m-0 text-4xl font-bold tabular-nums tracking-tight sm:text-5xl lg:text-[2.75rem] ${fontHeading}`}
+                        className={`m-0 text-3xl font-bold tabular-nums tracking-tight sm:text-5xl lg:text-[2.75rem] ${fontHeading}`}
                       >
                         {row.figure}
                       </p>
@@ -641,7 +641,7 @@ const Curriculam = () => {
                         onClick={() => setActiveId(tab.id)}
                         whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                         transition={{ type: "spring", stiffness: 450, damping: 28 }}
-                        className={`flex min-h-11 min-w-0 w-full items-center justify-center rounded-lg py-2 transition-[color,background-color,box-shadow,filter] duration-200 sm:w-auto sm:flex-1 sm:min-h-12 sm:py-2.5 ${TAB_FOCUS} ${
+                        className={`flex min-h-10 min-w-0 w-full items-center justify-center rounded-lg py-2 transition-[color,background-color,box-shadow,filter] duration-200 sm:w-auto sm:flex-1 sm:min-h-12 sm:py-2.5 ${TAB_FOCUS} ${
                           showPillText
                             ? "gap-1.5 px-2 sm:gap-2 sm:px-3"
                             : "gap-0 px-1.5 sm:px-2"
@@ -715,7 +715,7 @@ const Curriculam = () => {
                         <div className="space-y-5">
                           <h3
                             id={`curriculum-hero-title-${activeId}`}
-                            className={`text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl ${fontHeading}`}
+                            className={`text-[1.75rem] font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl ${fontHeading}`}
                           >
                             {active.title}
                           </h3>
@@ -724,15 +724,15 @@ const Curriculam = () => {
                             aria-label="Program details"
                           >
                             <li className="flex items-center gap-2">
-                              <IconMetaClock className="h-[1.125rem] w-[1.125rem] shrink-0 text-slate-400" />
+                              <IconMetaClock className="h-4 w-4 shrink-0 text-slate-400" />
                               <span>{metaWeeks}</span>
                             </li>
                             <li className="flex items-center gap-2">
-                              <IconMetaVideo className="h-[1.125rem] w-[1.125rem] shrink-0 text-slate-400" />
+                              <IconMetaVideo className="h-4 w-4 shrink-0 text-slate-400" />
                               <span>{metaFormat}</span>
                             </li>
                             <li className="flex items-center gap-2">
-                              <IconMetaRibbon className="h-[1.125rem] w-[1.125rem] shrink-0 text-slate-400" />
+                              <IconMetaRibbon className="h-4 w-4 shrink-0 text-slate-400" />
                               <span>{metaLevel}</span>
                             </li>
                           </ul>
@@ -769,7 +769,7 @@ const Curriculam = () => {
                                   className={`rounded-xl px-2 py-3 text-center sm:px-3 sm:py-4 ${tone.card}`}
                                 >
                                   <p
-                                    className={`text-lg font-extrabold tabular-nums sm:text-xl ${tone.value} ${fontHeading}`}
+                                    className={`text-base font-extrabold tabular-nums sm:text-xl ${tone.value} ${fontHeading}`}
                                   >
                                     {stat.value}
                                   </p>
@@ -782,7 +782,7 @@ const Curriculam = () => {
                           </div>
                           <a
                             href="/contact#send-message-heading"
-                            className="aa-btn-primary flex w-full items-center justify-center py-3.5 text-center text-base font-semibold sm:py-4"
+                            className="aa-btn-primary flex w-full items-center justify-center py-3.5 text-center text-sm font-semibold sm:py-4 sm:text-base"
                           >
                             Enroll Now — Under Shortlisted Aspirants
                           </a>

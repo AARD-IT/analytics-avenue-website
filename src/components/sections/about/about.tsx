@@ -65,7 +65,7 @@ const About = () => {
       <div className="aa-container">
         <h2
           id="about-title"
-          className="mb-8 text-center text-3xl font-extrabold leading-tight text-slate-900 sm:mb-10 sm:text-4xl"
+          className="mb-8 text-center text-[1.75rem] font-extrabold leading-tight text-slate-900 sm:mb-10 sm:text-4xl"
           style={reveal(0)}
         >
           Transforming Data Into{" "}
@@ -172,7 +172,7 @@ const About = () => {
             </div>
 
             <div
-              className="space-y-4 text-lg leading-relaxed text-[#080808] sm:text-[1.1rem] sm:leading-[1.3]"
+              className="space-y-4 text-base leading-relaxed text-[#080808] sm:text-[1.1rem] sm:leading-[1.3]"
               style={reveal(180)}
             >
               <p>
@@ -266,7 +266,7 @@ const About = () => {
               </h3>
               <span className="h-px w-full bg-blue-200" aria-hidden />
             </div>
-            <ul className="space-y-2.5 text-lg font-medium leading-relaxed text-[#080808] sm:text-[1.1rem] sm:leading-[1.3]">
+            <ul className="space-y-2.5 text-base font-medium leading-relaxed text-[#080808] sm:text-[1.1rem] sm:leading-[1.3]">
               <li className="flex items-start gap-2.5">
                 <span
                   className="mt-[0.35em] shrink-0 font-bold leading-none text-[var(--aa-primary)]"

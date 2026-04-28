@@ -180,14 +180,14 @@ function Impact() {
         className="pointer-events-none absolute -left-1/4 top-0 h-[420px] w-[70%] rounded-full bg-[color-mix(in_srgb,var(--aa-primary)_6%,transparent)] blur-3xl"
         aria-hidden
       />
-      <div className="aa-container relative px-4 sm:px-6 lg:px-8">
+      <div className="aa-container relative  sm:px-6 lg:px-8">
         <div
           ref={headerRef}
           className="mx-auto max-w-3xl text-center"
         >
           <motion.h2
             id={`${sectionId}-heading`}
-            className={`${fontHeading} text-balance text-3xl font-extrabold leading-[1.15] tracking-[-0.02em] text-[var(--aa-text-strong)] sm:text-4xl lg:text-[2.65rem]`}
+            className={`${fontHeading} text-balance text-[1.85rem] font-extrabold leading-[1.15] tracking-[-0.02em] text-[var(--aa-text-strong)] sm:text-4xl lg:text-[2.65rem]`}
             initial={false}
             animate={
               headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }
@@ -205,7 +205,7 @@ function Impact() {
           </motion.h2>
         </div>
 
-        <ul className="mx-auto mt-10 grid max-w-7xl list-none grid-cols-1 gap-3 p-0 sm:mt-12 sm:gap-4 md:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-4">
+        <ul className="mx-auto mt-10 grid max-w-7xl list-none grid-cols-2 gap-3 p-0 sm:mt-12 sm:gap-4 md:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-4">
           {IMPACT_ROWS.map((row, index) => (
             <ImpactCard
               key={`${row.title}-${row.range.join("-")}`}
@@ -237,7 +237,7 @@ function ImpactCard({
   return (
     <li ref={ref}>
       <motion.article
-        className="group flex h-full items-start gap-2.5 rounded-[var(--aa-radius-lg)] border border-slate-200/80 bg-white p-3 shadow-[0_12px_40px_-32px_rgba(15,23,42,0.22)] transition-[box-shadow,transform,border-color] duration-300 ease-out motion-reduce:transition-colors motion-reduce:hover:translate-y-0 hover:-translate-y-0.5 hover:border-slate-300/90 hover:shadow-[0_16px_44px_-28px_rgba(15,23,42,0.26)] sm:gap-3 sm:p-3.5"
+        className="group flex h-full flex-col items-start gap-2.5 rounded-[var(--aa-radius-lg)] border border-slate-200/80 bg-white p-3 shadow-[0_12px_40px_-32px_rgba(15,23,42,0.22)] transition-[box-shadow,transform,border-color] duration-300 ease-out motion-reduce:transition-colors motion-reduce:hover:translate-y-0 hover:-translate-y-0.5 hover:border-slate-300/90 hover:shadow-[0_16px_44px_-28px_rgba(15,23,42,0.26)] sm:flex-row sm:gap-3 sm:p-3.5"
         style={{
           borderTopWidth: 4,
           borderTopStyle: "solid",
@@ -252,11 +252,11 @@ function ImpactCard({
         }}
       >
         <div
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#eff6ff] text-slate-700 ring-1 ring-slate-100/90 transition-[background-color,box-shadow,color] duration-300 ease-out group-hover:bg-[color-mix(in_srgb,var(--aa-primary)_10%,white)] group-hover:text-[var(--aa-primary)] group-hover:shadow-[0_6px_18px_-10px_color-mix(in_srgb,var(--aa-primary)_45%,transparent)] sm:h-10 sm:w-10"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#eff6ff] text-slate-700 ring-1 ring-slate-100/90 transition-[background-color,box-shadow,color] duration-300 ease-out group-hover:bg-[color-mix(in_srgb,var(--aa-primary)_10%,white)] group-hover:text-[var(--aa-primary)] group-hover:shadow-[0_6px_18px_-10px_color-mix(in_srgb,var(--aa-primary)_45%,transparent)] sm:h-10 sm:w-10"
           aria-hidden
         >
           <Icon
-            className="h-4.5 w-4.5 sm:h-5 sm:w-5"
+            className="h-4 w-4 sm:h-5 sm:w-5"
             strokeWidth={2}
           />
         </div>

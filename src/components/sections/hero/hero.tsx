@@ -68,7 +68,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="px-10 py-10  relative overflow-hidden bg-[var(--aa-surface-soft)]"
+      className="px-4 py-10 sm:px-10  relative overflow-hidden bg-[var(--aa-surface-soft)]"
     >
       <div className="pointer-events-none absolute inset-0 -z-0">
         <div className="absolute -left-24 top-[-140px] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(26,115,232,0.28),rgba(26,115,232,0))] blur-3xl" />
@@ -78,13 +78,13 @@ const Hero = () => {
 
       <div className="aa-container relative z-10 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <div className="max-w-xl">
-          <h1 className="font-[family-name:var(--font-heading)] text-4xl font-extrabold leading-[1.1] text-slate-900 sm:text-5xl md:text-6xl lg:text-5xl">
+          <h1 className="font-[family-name:var(--font-heading)] text-[2.1rem] font-extrabold leading-[1.1] text-slate-900 sm:text-5xl md:text-6xl lg:text-5xl">
             AI Workforce for
             <br />
             Sales and Marketing
           </h1>
 
-          <h2 className="font-[family-name:var(--font-heading)] mt-8 flex flex-col gap-1 text-2xl font-bold leading-snug text-slate-900 sm:mt-12 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-2 sm:text-2xl">
+          <h2 className="font-[family-name:var(--font-heading)] mt-8 flex flex-col gap-1 text-xl font-bold leading-snug text-slate-900 sm:mt-12 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-2 sm:text-2xl">
             <span className="text-balance">We Build your</span>
             <RotatingText
               text={buildYourSystemsCapabilities}
@@ -98,17 +98,17 @@ const Hero = () => {
 
           
 
-          <div className="mt-9 grid gap-6 sm:mt-10 sm:grid-cols-3 sm:gap-4">
+          <div className="mt-9 grid grid-cols-2 gap-4 sm:mt-10 sm:grid-cols-3 sm:gap-4">
             {heroMatrix.map(({ value, title, sublabel, Icon }) => (
               <div key={title} className="flex min-w-0 items-start gap-3">
                 <div
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--aa-primary)_14%,transparent)] text-[var(--aa-primary)]"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--aa-primary)_14%,transparent)] text-[var(--aa-primary)]"
                   aria-hidden
                 >
-                  <Icon className="h-5 w-5" strokeWidth={1.75} />
+                  <Icon className="h-4 w-4" strokeWidth={1.75} />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-[family-name:var(--font-heading)] text-2xl font-semibold tracking-tight text-slate-900 sm:text-[1.65rem]">
+                  <p className="font-[family-name:var(--font-heading)] text-xl font-semibold tracking-tight text-slate-900 sm:text-[1.65rem]">
                     {value}
                   </p>
                   <p className="mt-0.5 text-[13px] leading-snug sm:text-sm">
@@ -122,7 +122,7 @@ const Hero = () => {
         </div>
 
         <div className="mx-auto flex w-full max-w-xl justify-center pb-10 lg:max-w-2xl lg:justify-end">
-          <OrbitingSkills className="min-h-[min(500px,62vh)] w-full max-w-[min(100vw-1rem,640px)] sm:min-h-[min(580px,70vh)] lg:min-h-[620px]" />
+          <OrbitingSkills className="min-h-[min(460px,58vh)] w-full max-w-[min(100vw-1.5rem,640px)] sm:min-h-[min(580px,70vh)] lg:min-h-[620px]" />
         </div>
       </div>
     </section>

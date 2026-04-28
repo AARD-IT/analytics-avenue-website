@@ -7,19 +7,11 @@ const fontHeading = "font-[family-name:var(--font-heading)]";
 const fontBody = "font-[family-name:var(--font-body)]";
 
 export default function LaunchPopup() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
 
   const dismissPopup = useCallback(() => {
     document.body.style.overflow = "";
     setIsPopupOpen(false);
-  }, []);
-
-  useEffect(() => {
-    const navEntry = performance.getEntriesByType(
-      "navigation",
-    )[0] as PerformanceNavigationTiming | undefined;
-    const isReload = navEntry?.type === "reload";
-    setIsPopupOpen(isReload);
   }, []);
 
   useEffect(() => {

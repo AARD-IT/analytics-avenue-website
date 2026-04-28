@@ -99,6 +99,7 @@ type SectionHeaderProps = {
     title: ReactNode
     subtitle: ReactNode
     center?: boolean
+    className?: string
     ranges: { number?: [number, number]; title: [number, number]; subtitle: [number, number] }
 }
 
@@ -216,8 +217,8 @@ const ScrollEllipse = ({
 /* ═══════════════════════════════════════════════════
    SECTION HEADER
    ═══════════════════════════════════════════════════ */
-const SectionHeader = ({ number, title, subtitle, center = false, ranges }: SectionHeaderProps) => (
-    <div className={`mb-10 lg:mb-14 ${center ? 'text-center' : ''}`}>
+const SectionHeader = ({ number, title, subtitle, center = false, className = '', ranges }: SectionHeaderProps) => (
+    <div className={`mb-10 lg:mb-14 ${center ? 'text-center' : ''} ${className}`}>
         {number != null && number !== '' && ranges.number != null && (
             <FadeIn range={ranges.number} className={`${fontHeading} mb-5 block text-4xl font-extrabold text-[var(--aa-primary)] md:mb-6 md:text-5xl`}>
                 {number}
@@ -323,7 +324,7 @@ const SolutionItem = ({ icon: LucideIcon, label, range, color }: SolutionItemPro
 )
 
 const SectionConnector = ({ ranges, color = PRIMARY }: SectionConnectorProps) => (
-    <div className="relative w-full flex justify-center" style={{ height: 130 }}>
+    <div className="relative flex w-full justify-center h-[92px] lg:h-[130px]">
         <svg className="w-[300px] h-full overflow-visible" viewBox="0 0 300 130">
             <DrawLine d="M 150 0 L 150 130" range={ranges.mainV} color={color} isSolid={false} strokeWidth={3} />
             <PulseDot cx={150} cy={65} range={ranges.dot} color={color} />
@@ -514,6 +515,11 @@ const Architecture = () => {
         const shiftForHiddenWarehouseDesktopFrames = -(20 * frame)
         const shiftForHiddenBranchAndStems = -(7 * frame)
         return {
+            s03: {
+                num: shiftRange(scrollRanges.s03.num, shiftForHiddenWarehouseDesktopFrames),
+                title: shiftRange(scrollRanges.s03.title, shiftForHiddenWarehouseDesktopFrames),
+                sub: shiftRange(scrollRanges.s03.sub, shiftForHiddenWarehouseDesktopFrames),
+            },
             whMobile: scrollRanges.whMobile.map((r) => shiftRange(r, shiftForHiddenWarehouseDesktopFrames)),
             connector: {
                 mainV: shiftRange(scrollRanges.connector.mainV, shiftForHiddenWarehouseDesktopFrames),
@@ -726,20 +732,21 @@ const Architecture = () => {
                     {/* ═══════════════════════════════════════════
             SECTION 03 — END TO END AI SOLUTIONS
             ═══════════════════════════════════════════ */}
-                    <div className="relative mt-8">
+                    <div className="relative mt-3 lg:mt-8">
                         <SectionHeader
                             number="03"
                             title={<span className="text-[var(--aa-primary)]">End to End AI solutions</span>}
                             subtitle={<span className="text-[var(--aa-text-strong)]">Empower Your Business with Predictive Insights, Precision Decisions, and Seamless AI Automation.</span>}
                             center
+                            className="mb-3 lg:mb-14"
                             ranges={{
-                                number: scrollRanges.s03.num,
-                                title: scrollRanges.s03.title,
-                                subtitle: scrollRanges.s03.sub,
+                                number: isMobile ? mobileRanges.s03.num : scrollRanges.s03.num,
+                                title: isMobile ? mobileRanges.s03.title : scrollRanges.s03.title,
+                                subtitle: isMobile ? mobileRanges.s03.sub : scrollRanges.s03.sub,
                             }}
                         />
 
-                        <div className="w-full relative mt-8 lg:-mt-4">
+                        <div className="relative mt-4 w-full lg:-mt-4">
 
                             {/* Header to Columns Branching Animation */}
                             <div className="w-full h-24 hidden lg:block relative mb-6">

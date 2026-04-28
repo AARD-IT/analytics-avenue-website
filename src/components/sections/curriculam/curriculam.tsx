@@ -113,7 +113,7 @@ const CURRICULUM_TABS: readonly CurriculumTab[] = [
       "GenAI Developer salary: ₹18–50 LPA • MLOps: ₹20–35 LPA at top MNCs",
     ],
     outcomes: ["AI Engineer", "GenAI Developer", "ML Engineer"],
-    videoEmbedUrl: "https://www.youtube.com/embed/aircAruvnKk?rel=0",
+    videoEmbedUrl: "https://www.youtube.com/embed/8vNgtV-nquI?rel=0",
     accent: {
       solid: "#7c3aed",
       soft: "rgba(124, 58, 237, 0.08)",

@@ -24,10 +24,14 @@ function isHashHref(href: string) {
   return href.startsWith("#");
 }
 
+function isLandingPath(pathname: string) {
+  return pathname === "/";
+}
+
 /** Hash links on `/` scroll in-page; from other routes, navigate to `/#id` so the home page loads and jumps. */
 function resolvedHashHref(pathname: string, href: string) {
   if (!isHashHref(href)) return href;
-  return pathname === "/" ? href : `/${href}`;
+  return isLandingPath(pathname) ? href : `/${href}`;
 }
 
 /** Smooth-scroll to in-page section; keeps hash navigation reliable with Next.js client rendering. */
@@ -50,7 +54,7 @@ const Navbar = () => {
   const handleHashNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
       if (!href.startsWith("#")) return;
-      if (pathname !== "/") return;
+      if (!isLandingPath(pathname)) return;
       const id = href.slice(1);
       if (!id) return;
       e.preventDefault();

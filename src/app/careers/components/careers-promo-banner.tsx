@@ -1,4 +1,4 @@
-import Link from "next/link";
+const ENROLL_URL = "https://pages.razorpay.com/discussion";
 
 export default function CareersPromoBanner() {
   return (
@@ -12,12 +12,12 @@ export default function CareersPromoBanner() {
         <p className="max-w-3xl text-sm font-semibold leading-snug text-[#080808] sm:text-base">
           Industry Ready GenAI program for Data Aspirants (Only for Shortlisted 150 Aspirants)
         </p>
-        <Link
-          href="/#curriculum-section"
+        <a
+          href={ENROLL_URL}
           className="aa-btn-primary shrink-0 px-5 py-2 text-sm"
         >
           Enroll Now
-        </Link>
+        </a>
       </div>
     </div>
   );

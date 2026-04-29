@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+
+const ENROLL_URL = "https://pages.razorpay.com/discussion";
 
 const fontHeading = "font-[family-name:var(--font-heading)]";
 const fontBody = "font-[family-name:var(--font-body)]";
@@ -79,14 +80,16 @@ export default function LaunchPopup() {
                 Only for Shortlisted 150 Aspirants
               </p>
 
-              <Link
-                href="/#curriculum-section"
+              <a
+                href={ENROLL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`${fontBody} aa-btn-primary mt-7 min-w-44 px-8 py-3 text-base font-semibold`}
                 style={{ backgroundColor: "#1C3D76" }}
                 onClick={dismissPopup}
               >
                 Enroll Now
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -101,12 +104,14 @@ export default function LaunchPopup() {
               Industry Ready GenAI program for Data Aspirants (Only for
               Shortlisted 150 Aspirants)
             </p>
-            <Link
-              href="/#curriculum-section"
+            <a
+              href={ENROLL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="aa-btn-primary shrink-0 px-5 py-2 text-sm"
             >
               Enroll Now
-            </Link>
+            </a>
           </div>
         </div>
       )}

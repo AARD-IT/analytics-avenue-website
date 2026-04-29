@@ -781,7 +781,7 @@ const Curriculam = () => {
                             })}
                           </div>
                           <a
-                            href="/contact#send-message-heading"
+                            href="https://pages.razorpay.com/discussion"
                             className="aa-btn-primary flex w-full items-center justify-center py-3.5 text-center text-sm font-semibold sm:py-4 sm:text-base"
                           >
                             Enroll Now — Under Shortlisted Aspirants

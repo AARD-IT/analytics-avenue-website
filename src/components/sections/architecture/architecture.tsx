@@ -88,6 +88,7 @@ type DrawLineProps = {
     color?: string
     strokeWidth?: number
     range: [number, number]
+    strokeLinecap?: 'round' | 'butt' | 'square'
 }
 
 type PulseDotProps = { cx: number; cy: number; color?: string; range: [number, number] }
@@ -141,7 +142,7 @@ type ScrollPolygonProps = { points: string; fill: string; range: [number, number
 /* ═══════════════════════════════════════════════════
    ANIMATED DRAW LINE (scroll-scrubbed pathLength)
    ═══════════════════════════════════════════════════ */
-const DrawLine = ({ d, isSolid = false, color = PRIMARY, strokeWidth = 3, range }: DrawLineProps) => {
+const DrawLine = ({ d, isSolid = false, color = PRIMARY, strokeWidth = 3, range, strokeLinecap = 'round' }: DrawLineProps) => {
     const { revealProgress } = useArchitectureReveal()
     const pathLength = useTransform(revealProgress, range, [0, 1])
     const opacity = useTransform(pathLength, [0, 0.04], [0, 1])
@@ -149,7 +150,7 @@ const DrawLine = ({ d, isSolid = false, color = PRIMARY, strokeWidth = 3, range 
     return (
         <motion.path
             d={d} fill="none" stroke={color} strokeWidth={strokeWidth}
-            strokeDasharray={isSolid ? 'none' : '10 10'} strokeLinecap="round"
+            strokeDasharray={isSolid ? 'none' : '10 10'} strokeLinecap={strokeLinecap}
             initial={false}
             style={{ pathLength, opacity }}
         />
@@ -300,7 +301,7 @@ const AISolutionCard = ({ icon: LucideIcon, title, description, range }: AISolut
     return (
         <motion.div
             style={{ opacity, x }}
-            className="rounded-[var(--aa-radius-2xl)] border border-[var(--aa-border)] border-l-4 border-l-[var(--aa-primary)] bg-[var(--aa-surface)] p-5 shadow-[var(--aa-shadow-sm)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--aa-shadow-md)]"
+            className="flex min-h-[11rem] flex-col rounded-[var(--aa-radius-2xl)] border border-[var(--aa-border)] border-l-4 border-l-[var(--aa-primary)] bg-[var(--aa-surface)] p-5 shadow-[var(--aa-shadow-sm)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--aa-shadow-md)]"
         >
             <div className="mb-2 flex items-center gap-2">
                 <LucideIcon className="h-5 w-5 shrink-0 text-[var(--aa-primary)]" strokeWidth={2} />
@@ -321,6 +322,26 @@ const SolutionItem = ({ icon: LucideIcon, label, range, color }: SolutionItemPro
             <span className={`${fontBody} text-[13px] font-semibold leading-tight text-[var(--aa-text-strong)]`}>{label}</span>
         </div>
     </FadeIn>
+)
+
+/** Matches lg:grid-cols-3 lg:gap-10 — endpoints align with column centers (not equal thirds of width). */
+const END_TO_END_BRANCH_X = { left: 187, center: 600, right: 1013 } as const
+
+/** Stem between cards + lower panels: stroke to base (butt), arrow polygon listed after so it draws on top */
+const EndToEndColumnStem = ({ range }: { range: [number, number] }) => (
+    <div className="relative z-0 -mt-3 mb-2 hidden h-16 w-full shrink-0 lg:flex lg:justify-center">
+        <svg className="h-full w-8 shrink-0 overflow-visible" viewBox="0 0 28 64" preserveAspectRatio="xMidYMid meet">
+            <DrawLine
+                d="M 14 0 L 14 54"
+                color={PRIMARY}
+                range={range}
+                strokeWidth={2.5}
+                isSolid
+                strokeLinecap="butt"
+            />
+            <ScrollPolygon points="9,54 14,64 19,54" fill={PRIMARY} range={range} />
+        </svg>
+    </div>
 )
 
 const SectionConnector = ({ ranges, color = PRIMARY }: SectionConnectorProps) => (
@@ -749,16 +770,51 @@ const Architecture = () => {
                         <div className="relative mt-4 w-full lg:-mt-4">
 
                             {/* Header to Columns Branching Animation */}
-                            <div className="w-full h-24 hidden lg:block relative mb-6">
-                                <svg className="w-full h-full pointer-events-none" viewBox="0 0 1200 96" preserveAspectRatio="none">
-                                    <DrawLine d="M 600 0 C 600 50, 200 50, 200 96" range={scrollRanges.branch.lines[0]!} color={PRIMARY} strokeWidth={2.5} />
-                                    <ScrollPolygon points="194,88 200,96 206,88" fill={PRIMARY} range={scrollRanges.branch.polys[0]!} />
+                            <div className="relative mb-6 hidden h-24 w-full lg:block">
+                                <svg className="h-full w-full pointer-events-none" viewBox="0 0 1200 96" preserveAspectRatio="none">
+                                    {/*
+                                      Stroke stops at y=90 (butt); head draws in scrollRanges.branch.polys so it follows the line.
+                                      DOM order: path then polygon so the arrow paints after the stroke.
+                                    */}
+                                    <DrawLine
+                                        d={`M ${END_TO_END_BRANCH_X.center} 0 C ${END_TO_END_BRANCH_X.center} 50, ${END_TO_END_BRANCH_X.left} 50, ${END_TO_END_BRANCH_X.left} 90`}
+                                        range={scrollRanges.branch.lines[0]!}
+                                        color={PRIMARY}
+                                        strokeWidth={2.5}
+                                        strokeLinecap="butt"
+                                    />
+                                    <ScrollPolygon
+                                        points={`${END_TO_END_BRANCH_X.left - 7},90 ${END_TO_END_BRANCH_X.left},96 ${END_TO_END_BRANCH_X.left + 7},90`}
+                                        fill={PRIMARY}
+                                        range={scrollRanges.branch.polys[0]!}
+                                    />
 
-                                    <DrawLine d="M 600 0 L 600 96" range={scrollRanges.branch.lines[1]!} color={PRIMARY} strokeWidth={2.5} isSolid />
-                                    <ScrollPolygon points="594,88 600,96 606,88" fill={PRIMARY} range={scrollRanges.branch.polys[1]!} />
+                                    <DrawLine
+                                        d={`M ${END_TO_END_BRANCH_X.center} 0 L ${END_TO_END_BRANCH_X.center} 90`}
+                                        range={scrollRanges.branch.lines[1]!}
+                                        color={PRIMARY}
+                                        strokeWidth={2.5}
+                                        isSolid
+                                        strokeLinecap="butt"
+                                    />
+                                    <ScrollPolygon
+                                        points={`${END_TO_END_BRANCH_X.center - 7},90 ${END_TO_END_BRANCH_X.center},96 ${END_TO_END_BRANCH_X.center + 7},90`}
+                                        fill={PRIMARY}
+                                        range={scrollRanges.branch.polys[1]!}
+                                    />
 
-                                    <DrawLine d="M 600 0 C 600 50, 1000 50, 1000 96" range={scrollRanges.branch.lines[2]!} color={PRIMARY} strokeWidth={2.5} />
-                                    <ScrollPolygon points="994,88 1000,96 1006,88" fill={PRIMARY} range={scrollRanges.branch.polys[2]!} />
+                                    <DrawLine
+                                        d={`M ${END_TO_END_BRANCH_X.center} 0 C ${END_TO_END_BRANCH_X.center} 50, ${END_TO_END_BRANCH_X.right} 50, ${END_TO_END_BRANCH_X.right} 90`}
+                                        range={scrollRanges.branch.lines[2]!}
+                                        color={PRIMARY}
+                                        strokeWidth={2.5}
+                                        strokeLinecap="butt"
+                                    />
+                                    <ScrollPolygon
+                                        points={`${END_TO_END_BRANCH_X.right - 7},90 ${END_TO_END_BRANCH_X.right},96 ${END_TO_END_BRANCH_X.right + 7},90`}
+                                        fill={PRIMARY}
+                                        range={scrollRanges.branch.polys[2]!}
+                                    />
                                 </svg>
                             </div>
 
@@ -770,12 +826,7 @@ const Architecture = () => {
                                     <div className="w-full">
                                         <AISolutionCard icon={LayoutDashboard} title="Dynamic Dashboards" description="When data speaks early, business wins faster — predictive dashboards drive performance and prevent risk" range={isMobile ? mobileRanges.s03Cols.topCards : scrollRanges.s03Cols.topCards} />
                                     </div>
-                                    <div className="w-full h-16 hidden lg:block overflow-visible relative -mt-3 mb-2 z-0">
-                                        <svg className="w-full h-full pointer-events-none" viewBox="0 0 100 64" preserveAspectRatio="none">
-                                            <DrawLine d="M 50 0 L 50 64" color={PRIMARY} range={scrollRanges.s03Cols.stems} strokeWidth={2} />
-                                            <ScrollPolygon points="46,58 50,64 54,58" fill={PRIMARY} range={scrollRanges.s03Cols.stems} />
-                                        </svg>
-                                    </div>
+                                    <EndToEndColumnStem range={scrollRanges.s03Cols.stems} />
                                     <div className={`${fontBody} relative z-10 mt-4 flex h-[calc(100%-1rem)] w-full min-h-[18rem] flex-col rounded-[var(--aa-radius-2xl)] border border-[var(--aa-border)] bg-[var(--aa-surface)] p-4 shadow-[var(--aa-shadow-sm)] lg:mt-0 lg:min-h-[22rem]`}>
                                         <FadeIn range={isMobile ? mobileRanges.s03Cols.lowerPanels : scrollRanges.s03Cols.lowerPanels} className="mb-4 text-center">
                                             <h4 className={`${fontHeading} mx-auto w-fit rounded-md border border-[var(--aa-border)] bg-[color-mix(in_srgb,var(--aa-primary)_8%,transparent)] px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-[var(--aa-primary)]`}>Dashboard Solutions</h4>
@@ -793,12 +844,7 @@ const Architecture = () => {
                                     <div className="w-full">
                                         <AISolutionCard icon={Sparkles} title="Predictive Models" description="Predict smarter, act faster, and lead with confidence - From prediction to performance, unlock real-time intelligence" range={isMobile ? mobileRanges.s03Cols.topCards : scrollRanges.s03Cols.topCards} />
                                     </div>
-                                    <div className="w-full h-16 hidden lg:block overflow-visible relative -mt-3 mb-2 z-0">
-                                        <svg className="w-full h-full pointer-events-none" viewBox="0 0 100 64" preserveAspectRatio="none">
-                                            <DrawLine d="M 50 0 L 50 64" color={PRIMARY} range={scrollRanges.s03Cols.stems} strokeWidth={2} />
-                                            <ScrollPolygon points="46,58 50,64 54,58" fill={PRIMARY} range={scrollRanges.s03Cols.stems} />
-                                        </svg>
-                                    </div>
+                                    <EndToEndColumnStem range={scrollRanges.s03Cols.stems} />
                                     <div className={`${fontBody} relative z-10 mt-4 flex h-[calc(100%-1rem)] w-full min-h-[18rem] flex-col rounded-[var(--aa-radius-2xl)] border border-[var(--aa-border)] bg-[var(--aa-surface)] p-4 shadow-[var(--aa-shadow-sm)] lg:mt-0 lg:min-h-[22rem]`}>
                                         <FadeIn range={isMobile ? mobileRanges.s03Cols.lowerPanels : scrollRanges.s03Cols.lowerPanels} className="mb-4 text-center">
                                             <h4 className={`${fontHeading} mx-auto w-fit rounded-md border border-[var(--aa-border)] bg-[color-mix(in_srgb,var(--aa-primary)_8%,transparent)] px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-[var(--aa-primary)]`}>Predictive Solutions</h4>
@@ -816,12 +862,7 @@ const Architecture = () => {
                                     <div className="w-full">
                                         <AISolutionCard icon={Bot} title="Agentic AI Automations" description="Agentic AI doesn't just assist — it acts. Our intelligent agents automate decisions and execute workflows." range={isMobile ? mobileRanges.s03Cols.topCards : scrollRanges.s03Cols.topCards} />
                                     </div>
-                                    <div className="w-full h-16 hidden lg:block overflow-visible relative -mt-3 mb-2 z-0">
-                                        <svg className="w-full h-full pointer-events-none" viewBox="0 0 100 64" preserveAspectRatio="none">
-                                            <DrawLine d="M 50 0 L 50 64" color={PRIMARY} range={scrollRanges.s03Cols.stems} strokeWidth={2} />
-                                            <ScrollPolygon points="46,58 50,64 54,58" fill={PRIMARY} range={scrollRanges.s03Cols.stems} />
-                                        </svg>
-                                    </div>
+                                    <EndToEndColumnStem range={scrollRanges.s03Cols.stems} />
                                     <div className={`${fontBody} relative z-10 mt-4 flex h-[calc(100%-1rem)] w-full min-h-[18rem] flex-col rounded-[var(--aa-radius-2xl)] border border-[var(--aa-border)] bg-[var(--aa-surface)] p-4 shadow-[var(--aa-shadow-sm)] lg:mt-0 lg:min-h-[22rem]`}>
                                         <FadeIn range={isMobile ? mobileRanges.s03Cols.lowerPanels : scrollRanges.s03Cols.lowerPanels} className="mb-4 text-center">
                                             <h4 className={`${fontHeading} mx-auto w-fit rounded-md border border-[var(--aa-primary)] bg-[color-mix(in_srgb,var(--aa-primary)_8%,transparent)] px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-[var(--aa-primary)]`}>Agentic AI Solutions</h4>

@@ -5,7 +5,6 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import {
   useCallback,
-  useEffect,
   useState,
   type CSSProperties,
   type KeyboardEvent,
@@ -481,9 +480,10 @@ const Curriculam = () => {
   const active = CURRICULUM_TABS.find((t) => t.id === activeId)!;
   const [metaWeeks, metaFormat, metaLevel] = splitCurriculumMeta(active.meta);
 
-  useEffect(() => {
+  const selectTab = useCallback((id: TabId) => {
+    setActiveId(id);
     setLearnOpenPanel(null);
-  }, [activeId]);
+  }, []);
 
   const toggleLearnPanel = useCallback((panel: "core" | "market") => {
     setLearnOpenPanel((prev) => (prev === panel ? null : panel));
@@ -493,14 +493,17 @@ const Curriculam = () => {
     ? { duration: 0 }
     : { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const };
 
-  const focusTabAtIndex = useCallback((index: number) => {
-    const next = CURRICULUM_TABS[index];
-    if (!next) return;
-    setActiveId(next.id);
-    queueMicrotask(() => {
-      document.getElementById(`curriculum-tab-${next.id}`)?.focus();
-    });
-  }, []);
+  const focusTabAtIndex = useCallback(
+    (index: number) => {
+      const next = CURRICULUM_TABS[index];
+      if (!next) return;
+      selectTab(next.id);
+      queueMicrotask(() => {
+        document.getElementById(`curriculum-tab-${next.id}`)?.focus();
+      });
+    },
+    [selectTab],
+  );
 
   const onTabListKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
@@ -638,7 +641,7 @@ const Curriculam = () => {
                         aria-selected={isActive}
                         aria-controls={`curriculum-panel-${tab.id}`}
                         tabIndex={isActive ? 0 : -1}
-                        onClick={() => setActiveId(tab.id)}
+                        onClick={() => selectTab(tab.id)}
                         whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                         transition={{ type: "spring", stiffness: 450, damping: 28 }}
                         className={`flex min-h-10 min-w-0 w-full items-center justify-center rounded-lg py-2 transition-[color,background-color,box-shadow,filter] duration-200 sm:w-auto sm:flex-1 sm:min-h-12 sm:py-2.5 ${TAB_FOCUS} ${

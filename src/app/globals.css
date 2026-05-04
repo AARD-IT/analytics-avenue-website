@@ -38,6 +38,8 @@
 }
 
 html {
+  /* Framer Motion useScroll: non-static root so scroll offset vs. a `target` measures correctly. */
+  position: relative;
   scroll-behavior: smooth;
   /* Slightly less offset on narrow screens (shorter sticky header). */
   scroll-padding-top: clamp(4rem, 12vw, 5rem);

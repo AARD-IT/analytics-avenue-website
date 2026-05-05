@@ -255,7 +255,7 @@ const Challenges = () => {
         <header className="mb-10 text-center sm:mb-12">
           <h2
             id="challenges-title"
-            className={`${fontHeading} text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl`}
+            className={`${fontHeading} text-[22px] font-extrabold leading-tight text-slate-900 sm:text-4xl`}
           >
             Built for{" "}
             <span
@@ -267,7 +267,7 @@ const Challenges = () => {
             Challenges
           </h2>
           <p
-            className={`${fontBody} mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg`}
+            className={`${fontBody} mx-auto mt-4 max-w-2xl text-[13px] leading-relaxed text-slate-600 sm:text-lg`}
           >
             Our solutions combine data, AI, and automation to solve complex
             problems across industries.
@@ -326,7 +326,7 @@ const Challenges = () => {
                 }}
                 className={`snap-center shrink-0 rounded-xl shadow-md shadow-slate-200/50 ${
                   c.featured ? "ring-2 ring-[#1A73E8] ring-offset-1" : ""
-                } w-[min(520px,calc(100vw-2.25rem))] max-w-[min(520px,calc(100vw-2.25rem))] md:w-[min(560px,calc(100vw-2.5rem))] md:max-w-[min(560px,calc(100vw-2.5rem))]`}
+                } w-[300px] max-w-[300px] md:w-[min(560px,calc(100vw-2.5rem))] md:max-w-[min(560px,calc(100vw-2.5rem))]`}
                 badgeLabel={c.badgeLabel}
                 headline={c.headline}
                 description={c.description}

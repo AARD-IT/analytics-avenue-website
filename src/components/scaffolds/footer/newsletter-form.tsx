@@ -10,7 +10,6 @@ export default function NewsletterForm() {
   const [showThanks, setShowThanks] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   useEffect(() => {
@@ -35,7 +34,6 @@ export default function NewsletterForm() {
       });
       toast.success("Subscribed successfully");
       setShowThanks(true);
-      setName("");
       setEmail("");
     } catch {
       setShowThanks(false);
@@ -57,19 +55,6 @@ export default function NewsletterForm() {
         onSubmit={onSubmit}
         className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-2"
       >
-        <label htmlFor="footer-newsletter-name" className="sr-only">
-          Name
-        </label>
-        <input
-          id="footer-newsletter-name"
-          name="name"
-          type="text"
-          autoComplete="name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          placeholder="Your name"
-          className={`${fontBody} min-h-[2.75rem] w-full min-w-0 flex-1 rounded-xl border border-white/40 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/55 focus:border-white/70 focus:outline-none focus:ring-2 focus:ring-white/40`}
-        />
         <label htmlFor="footer-newsletter-email" className="sr-only">
           Email address
         </label>
@@ -82,7 +67,7 @@ export default function NewsletterForm() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="you@company.com"
-          className={`${fontBody} min-h-[2.75rem] w-full flex-1 rounded-xl border border-white/40 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/55 focus:border-white/70 focus:outline-none focus:ring-2 focus:ring-white/40`}
+          className={`${fontBody} min-h-[2.75rem] w-full min-w-0 flex-1 rounded-xl border border-white/40 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/55 focus:border-white/70 focus:outline-none focus:ring-2 focus:ring-white/40`}
         />
         <button
           type="submit"

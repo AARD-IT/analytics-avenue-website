@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useCallback, useState } from "react";
+import { SiWhatsapp } from "react-icons/si";
 import { toast } from "sonner";
 import { submitToGoogleAppsScript } from "@/lib/google-script";
 import {
@@ -119,12 +120,25 @@ export default function CareersApplicationForm({ onSubmitted, onRoleChange }: Ca
         className="aa-card rounded-[var(--aa-radius-2xl)] border border-[var(--aa-border)] bg-[var(--aa-surface-soft)] p-8 text-center shadow-[var(--aa-shadow-md)]"
         role="status"
       >
-        <p className="font-[family-name:var(--font-heading)] text-lg font-bold text-[var(--aa-text-strong)]">
-          Thank you for your interest.
+        <p className="font-[family-name:var(--font-heading)] text-xl font-bold text-[var(--aa-text-strong)]">
+          Thank you for submitting your application.
         </p>
-        <p className="mt-2 text-sm text-[var(--aa-text-muted)]">
-          Our team will review your application and reach out if there is a good match.
+        <p className="mt-3 text-base font-medium leading-relaxed text-[var(--aa-text-muted)]">
+          Our HR team will contact you shortly. For further assistance, feel free to connect with us on
+          WhatsApp.
         </p>
+        <div className="mt-6 flex justify-center">
+          <a
+            href="https://wa.me/917550279838"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp: 75502 79838"
+            className="bg-[#25D366] text-white rounded-xl inline-flex min-h-[3rem] items-center justify-center gap-2.5 px-8 text-base font-semibold transition hover:opacity-95"
+          >
+            <SiWhatsapp className="size-6 shrink-0" aria-hidden />
+            WhatsApp
+          </a>
+        </div>
       </div>
     );
   }

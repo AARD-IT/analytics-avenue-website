@@ -2,11 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { useCallback, useState } from "react";
-import { postToGoogleScript } from "@/lib/google-script";
+import { toast } from "sonner";
+import { submitToGoogleAppsScript } from "@/lib/google-script";
 
 /**
  * Contact form fields aligned with analyticsavenuerd.in/contact.
- * Submit is acknowledged locally until a backend or email workflow is wired.
+ * Submits to Google Apps Script Web App (`CONTACT_LEADS` sheet).
  */
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -23,20 +24,22 @@ export default function ContactForm() {
     setIsSubmitting(true);
     setSubmitError(null);
     try {
-      await postToGoogleScript({
-        type: "lead",
+      await submitToGoogleAppsScript({
+        formType: "contact",
         name: String(data.get("name") ?? "").trim(),
         email: String(data.get("email") ?? "").trim(),
         phone: String(data.get("phone") ?? "").trim(),
         organization: String(data.get("organization") ?? "").trim(),
         designation: String(data.get("designation") ?? "").trim(),
         message: String(data.get("message") ?? "").trim(),
-        source: "Contact Page",
       });
+      toast.success("Message sent successfully");
       setSubmitted(true);
       form.reset();
     } catch {
-      setSubmitError("Error submitting form. Please try again.");
+      const msg = "Error submitting form. Please try again.";
+      setSubmitError(msg);
+      toast.error(msg);
     } finally {
       setIsSubmitting(false);
     }

@@ -2,7 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { useCallback, useState } from "react";
-import { postToGoogleScript } from "@/lib/google-script";
+import { toast } from "sonner";
+import { submitToGoogleAppsScript } from "@/lib/google-script";
+import {
+  readFileAsBase64,
+  resumeMimeFromFile,
+  validateResumeFile,
+} from "@/lib/resume-file";
 import {
   CAREER_PATHS,
   CAREERS_APPLICATION_SECTION_IDS,
@@ -20,13 +26,15 @@ type CareersApplicationFormProps = {
 
 /**
  * Client-side application form mirroring analyticsavenuerd.in/careers fields.
- * Submits are acknowledged locally until a backend endpoint is wired.
+ * Submits JSON (including Base64 resume) to Google Apps Script Web App (`JOB_APPLICATIONS` sheet).
  */
 export default function CareersApplicationForm({ onSubmitted, onRoleChange }: CareersApplicationFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [resumeFileName, setResumeFileName] = useState<string | null>(null);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const showDataAnalyticsBlock = isCareersDataAnalyticsRole(selectedRole);
 
   const onSubmit = useCallback(
@@ -42,51 +50,67 @@ export default function CareersApplicationForm({ onSubmitted, onRoleChange }: Ca
       setIsSubmitting(true);
       setSubmitError(null);
       try {
-        await postToGoogleScript({
-          type: "career",
-          name: String(data.get("name") ?? "").trim(),
+        const resumeErr = resumeFile ? validateResumeFile(resumeFile) : "Please upload resume";
+        if (resumeErr) {
+          setSubmitError(resumeErr);
+          toast.error(resumeErr);
+          return;
+        }
+        const file = resumeFile as File;
+        const base64File = await readFileAsBase64(file);
+        const fileType = resumeMimeFromFile(file);
+
+        const emptyIfNotData = (field: string) =>
+          isDataRole ? String(data.get(field) ?? "").trim() : "";
+
+        await submitToGoogleAppsScript({
+          formType: "job_application",
           email: String(data.get("email") ?? "").trim(),
+          name: String(data.get("name") ?? "").trim(),
           phone: String(data.get("phone") ?? "").trim(),
           location: String(data.get("location") ?? "").trim(),
           qualification: String(data.get("qualification") ?? "").trim(),
-          status: String(data.get("applicationStatus") ?? "").trim(),
+          applicationStatus: String(data.get("applicationStatus") ?? "").trim(),
           experience: String(data.get("experience") ?? "").trim(),
-          ctc: String(data.get("currentCtc") ?? "").trim(),
-          takeHome: String(data.get("takeHome") ?? "").trim(),
+          currentCTC: String(data.get("currentCtc") ?? "").trim(),
+          takeHomeSalary: String(data.get("takeHome") ?? "").trim(),
           immediateJoiner: String(data.get("immediateJoiner") ?? "").trim(),
           noticePeriod: String(data.get("noticePeriod") ?? "").trim(),
-          role,
-          resume: String(data.get("resumeLink") ?? "").trim(),
-          profile: String(data.get("profileDetail") ?? "").trim(),
-          workSamples: String(data.get("workSamples") ?? "").trim(),
-          extraProjects: isDataRole
-            ? {
-                timeSeries: String(data.get("projTimeSeries") ?? "").trim(),
-                classification: String(data.get("projClassification") ?? "").trim(),
-                genAI: String(data.get("projGenAi") ?? "").trim(),
-                openCV: String(data.get("projOpenCv") ?? "").trim(),
-              }
-            : {},
-          extraSectors: isDataRole
-            ? {
-                automobile: String(data.get("sector_automobile") ?? "").trim(),
-                logistics: String(data.get("sector_logistics") ?? "").trim(),
-                healthcare: String(data.get("sector_healthcare") ?? "").trim(),
-                finance: String(data.get("sector_finance") ?? "").trim(),
-                supplyChain: String(data.get("sector_supply_chain") ?? "").trim(),
-              }
-            : {},
+          appliedRole: role,
+          profileDescription: String(data.get("profileDetail") ?? "").trim(),
+          portfolioLink: String(data.get("workSamples") ?? "").trim(),
+          timeSeriesProjects: emptyIfNotData("projTimeSeries"),
+          classificationProjects: emptyIfNotData("projClassification"),
+          genAIProjects: emptyIfNotData("projGenAi"),
+          openCVProjects: emptyIfNotData("projOpenCv"),
+          automobileProjects: emptyIfNotData("sector_automobile"),
+          logisticsProjects: emptyIfNotData("sector_logistics"),
+          healthcareProjects: emptyIfNotData("sector_healthcare"),
+          financeProjects: emptyIfNotData("sector_finance"),
+          supplyChainProjects: emptyIfNotData("sector_supply_chain"),
+          resumeBase64: base64File,
+          resumeFileName: file.name,
+          resumeMimeType: fileType,
         });
+
+        toast.success("Application submitted successfully");
         setSubmitted(true);
         onSubmitted?.();
+        setResumeFileName(null);
+        setResumeFile(null);
+        setSelectedRole("");
+        onRoleChange?.("");
         form.reset();
-      } catch {
-        setSubmitError("Submission failed. Please try again.");
+      } catch (err) {
+        const msg =
+          err instanceof Error && err.message ? err.message : "Submission failed. Please try again.";
+        setSubmitError(msg);
+        toast.error(msg);
       } finally {
         setIsSubmitting(false);
       }
     },
-    [isSubmitting, onSubmitted],
+    [isSubmitting, onRoleChange, onSubmitted, resumeFile],
   );
 
   if (submitted) {
@@ -99,8 +123,7 @@ export default function CareersApplicationForm({ onSubmitted, onRoleChange }: Ca
           Thank you for your interest.
         </p>
         <p className="mt-2 text-sm text-[var(--aa-text-muted)]">
-          Your application details have been recorded in this preview. Connect your form to your ATS
-          or email workflow when ready.
+          Our team will review your application and reach out if there is a good match.
         </p>
       </div>
     );
@@ -283,23 +306,33 @@ export default function CareersApplicationForm({ onSubmitted, onRoleChange }: Ca
           Resume & portfolio
         </h3>
         <p className="mt-1 text-sm text-[var(--aa-text-muted)]">
-          Share a viewable link to your resume (e.g. Google Drive with “Anyone with the link”), plus your profile and work samples.
+          Upload your resume as a file, describe your profile in detail, and add a link to work samples.
         </p>
         <div className="mt-6 grid gap-5">
-        <label className="block text-sm font-medium text-slate-700">
-          Resume link <span className="text-red-600">*</span>
+        <div className="block text-sm font-medium text-slate-700">
+          <span>
+            Resume file <span className="text-red-600">*</span>
+          </span>
           <input
-            name="resumeLink"
-            type="url"
+            type="file"
             required
-            placeholder="https://drive.google.com/..."
-            autoComplete="url"
-            className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-[var(--aa-primary)] focus:ring-2 focus:ring-[var(--aa-primary)]/25"
+            accept=".pdf,.doc,.docx"
+            onChange={(ev) => {
+              const f = ev.target.files?.[0] ?? null;
+              setResumeFile(f);
+              setResumeFileName(f?.name ?? null);
+            }}
+            className="mt-1.5 block w-full max-w-full cursor-pointer rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-[var(--aa-primary)] file:px-4 file:py-2 file:text-sm file:font-medium file:text-white outline-none focus-within:border-[var(--aa-primary)] focus-within:ring-2 focus-within:ring-[var(--aa-primary)]/25"
           />
           <span className="mt-1.5 block text-xs text-[var(--aa-text-muted)]">
-            Paste a Google Drive, Dropbox, or other cloud link — ensure the file is accessible to anyone with the link.
+            PDF or Word (.pdf, .doc, .docx), up to 5 MB.
           </span>
-        </label>
+          {resumeFileName && (
+            <span className="mt-1.5 block text-xs font-medium text-slate-600" aria-live="polite">
+              Selected: {resumeFileName}
+            </span>
+          )}
+        </div>
         <label className="block text-sm font-medium text-slate-700">
           Write in detail about your profile <span className="text-red-600">*</span>
           <textarea

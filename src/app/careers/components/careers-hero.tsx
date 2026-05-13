@@ -22,14 +22,7 @@ export default function CareersHero() {
               platforms to drive real business impact.
             </p>
             <div className="mt-6 flex min-w-0 flex-col items-stretch gap-3">
-              <a
-                href={CAREERS_YOUTUBE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="aa-btn-accent w-full whitespace-nowrap px-4 py-2.5 text-sm"
-              >
-                Watch video
-              </a>
+              
               <a
                 href={CAREERS_LINKEDIN_URL}
                 target="_blank"
@@ -58,14 +51,6 @@ export default function CareersHero() {
               </p>
             </div>
             <div className="mt-8 flex min-w-0 flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-3">
-              <a
-                href={CAREERS_YOUTUBE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="aa-btn-accent w-full whitespace-nowrap px-4 py-2.5 text-sm sm:w-auto"
-              >
-                Watch video
-              </a>
               <a
                 href={CAREERS_LINKEDIN_URL}
                 target="_blank"

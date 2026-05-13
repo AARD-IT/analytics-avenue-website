@@ -357,11 +357,10 @@ export default function CareersApplicationForm({ onSubmitted, onRoleChange }: Ca
           />
         </label>
         <label className="block text-sm font-medium text-slate-700">
-          Some work samples link <span className="text-red-600">*</span>
+          Some work samples link
           <input
             name="workSamples"
             type="url"
-            required
             placeholder="https://"
             className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-[var(--aa-primary)] focus:ring-2 focus:ring-[var(--aa-primary)]/25"
           />

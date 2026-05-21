@@ -48,10 +48,16 @@ export type JobApplicationFormPayload = {
   resumeMimeType: string;
 };
 
+export type AnalyticsAvenueFormPayload = {
+  formType: 'pre-onboarding' | 'feedback' | 'placement' | 'monthly-review';
+  data: Record<string, unknown>;
+};
+
 export type GoogleAppsScriptFormPayload =
   | CtaFormPayload
   | ContactFormPayload
-  | JobApplicationFormPayload;
+  | JobApplicationFormPayload
+  | AnalyticsAvenueFormPayload;
 
 export type GoogleAppsScriptResult = {
   success?: boolean;
@@ -63,6 +69,18 @@ function getGoogleScriptUrl(): string {
   if (!url || !String(url).trim()) {
     throw new Error("NEXT_PUBLIC_GOOGLE_SCRIPT_URL is not configured.");
   }
+  return String(url).trim();
+}
+
+function getAnalyticsAvenueScriptUrl(): string {
+  const publicUrl = process.env.NEXT_PUBLIC_ANALYTICS_AVENUE_SCRIPT_URL;
+  const viteUrl = process.env.VITE_ANALYTICS_AVENUE_SCRIPT_URL;
+  const url = publicUrl && String(publicUrl).trim() ? publicUrl : viteUrl && String(viteUrl).trim() ? viteUrl : undefined;
+
+  if (!url || !String(url).trim()) {
+    throw new Error("NEXT_PUBLIC_ANALYTICS_AVENUE_SCRIPT_URL or VITE_ANALYTICS_AVENUE_SCRIPT_URL is not configured.");
+  }
+
   return String(url).trim();
 }
 
@@ -90,6 +108,35 @@ export async function submitToGoogleAppsScript(
   payload: GoogleAppsScriptFormPayload,
 ): Promise<GoogleAppsScriptResult> {
   const response = await fetch(getGoogleScriptUrl(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain",
+    },
+    body: JSON.stringify(payload),
+    cache: "no-store",
+  });
+
+  const text = await response.text();
+  const body = text.trim() ? await parseJsonObject(text) : {};
+
+  if (!response.ok) {
+    throw new Error(messageFromBody(body, `Request failed (${response.status}).`));
+  }
+
+  if (body.success === false) {
+    throw new Error(messageFromBody(body, "Submission failed."));
+  }
+
+  return {
+    success: body.success !== false,
+    message: typeof body.message === "string" ? body.message : undefined,
+  };
+}
+
+export async function submitToAnalyticsAvenueAppsScript(
+  payload: AnalyticsAvenueFormPayload,
+): Promise<GoogleAppsScriptResult> {
+  const response = await fetch(getAnalyticsAvenueScriptUrl(), {
     method: "POST",
     headers: {
       "Content-Type": "text/plain",

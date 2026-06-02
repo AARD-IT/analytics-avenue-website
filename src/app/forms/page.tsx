@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { ArrowRight, ShieldCheck, BadgeCheck, Layers, ClipboardCheck, Briefcase, Users, BarChart3 } from 'lucide-react';
 
 const stats = [
@@ -9,32 +8,32 @@ const stats = [
 
 const cards = [
   {
-    href: '/forms/pre-onboarding-form',
+    href: 'https://docs.google.com/forms/d/e/1FAIpQLScas_h5-7xP-OspUM6u_RkN0L52cBjbmeHu00f0_A76jR32rQ/viewform',
     category: 'RECRUITMENT',
     title: 'Candidate Pre-Onboarding',
     description: 'Submit candidate onboarding information, professional details, and intake documentation for recruitment coordination and internal review workflows.',
     icon: Users,
   },
   {
-    href: '/forms/feedback-form',
+    href: 'https://docs.google.com/forms/d/e/1FAIpQLSdckib9okyWOOlVO653rrQLiUJA-LLrAD_xtuELcEOZE43lKQ/viewform',
     category: 'MENTORING',
-    title: 'Mentor Feedback Review',
+    title: 'Mentor Feedback Form',
     description: 'Capture mentor observations, technical evaluations, session feedback, and structured learning insights within a centralized review workflow.',
     icon: ClipboardCheck,
   },
   {
-    href: '/forms/placement-form',
-    category: 'PLACEMENT',
-    title: 'Placement Operations Tracker',
-    description: 'Manage candidate placement progress, assignment tracking, onboarding stages, and operational task completion in one workflow system.',
-    icon: Briefcase,
+    href: 'https://docs.google.com/forms/d/e/1FAIpQLSe_GkhNJ_iQLPplEZZmuvqz4f3ZIZ9rWOxUH0dD4xCzbSX4PQ/viewform',
+    category: 'HR OPERATIONS',
+    title: 'Monthly Review Feedback Form',
+    description: 'Collect monthly performance feedback, employee review insights, and workplace development notes through a simple structured form.',
+    icon: BarChart3,
   },
   {
-    href: '/forms/monthly-review-feedback-form',
-    category: 'HR OPERATIONS',
-    title: 'Monthly Performance Review',
-    description: 'Collect employee performance reviews, workplace insights, productivity feedback, and professional growth observations securely.',
-    icon: BarChart3,
+    href: 'https://docs.google.com/forms/d/e/1FAIpQLSe0ISeiC1LJBXd_zxkarhQXAi3JatB_-6b_L2VU_W1eI2N2KQ/viewform',
+    category: 'PLACEMENT',
+    title: 'Analytics Avenue Placement Tracker - L1 Tasks',
+    description: 'Manage candidate placement progress, assignment tracking, onboarding stages, and operational task completion in one workflow system.',
+    icon: Briefcase,
   },
 ];
 
@@ -113,9 +112,11 @@ export default function FormsIndexPage() {
             {cards.map((card) => {
               const Icon = card.icon;
               return (
-                <Link
+                <a
                   key={card.href}
                   href={card.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_24px_64px_-40px_rgba(15,23,42,0.12)] transition hover:-translate-y-1 hover:border-sky-300 hover:shadow-[0_36px_80px_-50px_rgba(56,189,248,0.25)]"
                 >
                   <div className="flex items-center justify-between gap-4">
@@ -142,7 +143,7 @@ export default function FormsIndexPage() {
                       </span>
                     ))}
                   </div>
-                </Link>
+                </a>
               );
             })}
           </div>

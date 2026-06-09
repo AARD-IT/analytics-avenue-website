@@ -48,7 +48,7 @@ function scrollToSectionId(id: string) {
 }
 
 const Navbar = () => {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? '/';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleHashNavClick = useCallback(

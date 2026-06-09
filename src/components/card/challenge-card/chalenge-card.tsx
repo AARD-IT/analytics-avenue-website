@@ -128,7 +128,9 @@ const ChallengeCard = forwardRef<HTMLElement, ChallengeCardProps>(
 
           <div>
             <a
-              href="/contact#send-message-heading"
+              href="https://www.analyticsavenuerd.in/"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`${fontBody} aa-btn-primary group min-h-[48px] cursor-pointer rounded-lg px-4 py-2 text-[14px] font-bold hover:opacity-95 sm:text-[16px]`}
             >
               Get Started

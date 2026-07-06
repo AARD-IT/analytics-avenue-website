@@ -1,4 +1,4 @@
-const ENROLL_URL = "https://pages.razorpay.com/discussion";
+const ENROLL_URL = "https://edtech.analyticsavenue.in";
 
 export default function CareersPromoBanner() {
   return (

@@ -22,7 +22,7 @@ export default function CareersHero() {
               platforms to drive real business impact.
             </p>
             <div className="mt-6 flex min-w-0 flex-col items-stretch gap-3">
-              
+
               <a
                 href={CAREERS_LINKEDIN_URL}
                 target="_blank"

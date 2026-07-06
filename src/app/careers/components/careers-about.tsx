@@ -63,9 +63,8 @@ export default function CareersAbout() {
           {/* Left: same visual pattern as home About (cover + play → embed) */}
           <div className="relative min-w-0 w-full shrink-0 lg:max-w-xl lg:flex-1">
             <div
-              className={`relative w-full overflow-hidden rounded-[1.75rem] border border-slate-100 shadow-[0_18px_55px_-30px_rgba(15,23,42,0.28)] ${
-                videoOpen ? "aspect-video" : ""
-              }`}
+              className={`relative w-full overflow-hidden rounded-[1.75rem] border border-slate-100 shadow-[0_18px_55px_-30px_rgba(15,23,42,0.28)] ${videoOpen ? "aspect-video" : ""
+                }`}
             >
               {!videoOpen ? (
                 <>
@@ -189,7 +188,7 @@ export default function CareersAbout() {
               shaping talent and enterprise BI, GenAI, and analytics platforms that deliver measurable outcomes.
             </p>
 
-          
+
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-slate-100/80 bg-[var(--aa-surface-soft)] p-5 shadow-[var(--aa-shadow-sm)]">

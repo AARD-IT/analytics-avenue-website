@@ -100,9 +100,10 @@ const Navbar = () => {
 
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href={resolvedHashHref(pathname, "#about")}
+            href="https://edtech.analyticsavenue.in"
             className="aa-btn-primary px-4 py-2 text-sm"
-            onClick={(e) => handleHashNavClick(e, "#about")}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             EDTech Solutions
           </a>
@@ -170,9 +171,10 @@ const Navbar = () => {
             )}
             <div className="mt-2 flex flex-col gap-3">
               <a
-                href={resolvedHashHref(pathname, "#about")}
-                onClick={(e) => handleHashNavClick(e, "#about")}
+                href="https://edtech.analyticsavenue.in"
                 className="aa-btn-secondary px-4 py-2 text-center text-sm"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 EDTech Solutions
               </a>

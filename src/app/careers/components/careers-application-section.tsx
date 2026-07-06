@@ -68,15 +68,28 @@ export default function CareersApplicationSection() {
     <section
       className="aa-section bg-white py-12 sm:py-16"
       aria-labelledby="careers-application-title"
+      id="careers-apply"
     >
       <div className="aa-container px-4 sm:px-6">
+        <div className="mb-2 flex justify-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[var(--aa-primary)]/30 bg-[var(--aa-primary)]/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-[var(--aa-primary)]">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--aa-primary)] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--aa-primary)]" />
+            </span>
+            Open Positions — Apply Below
+          </span>
+        </div>
         <h2
           id="careers-application-title"
-          className="mb-2 text-center text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl"
+          className="mb-2 text-center text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl lg:text-5xl"
         >
           Fill the{" "}
           <span className="rounded-sm bg-[var(--aa-primary)] px-2 py-0.5 text-white">Application</span>
         </h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-base font-bold text-slate-700 sm:text-lg">
+          Complete the form below — takes less than 5 minutes. Our team reviews every submission personally.
+        </p>
 
         <div
           className={
@@ -87,7 +100,7 @@ export default function CareersApplicationSection() {
         >
           {!submitted && (
             <nav
-              className="rounded-2xl border border-slate-200/95 bg-white p-5 shadow-[var(--aa-shadow-md)] ring-1 ring-slate-900/[0.04] lg:sticky lg:top-28 lg:max-h-[min(100vh-8rem,32rem)] lg:self-start lg:overflow-y-auto lg:p-6"
+              className="rounded-2xl border-2 border-[var(--aa-primary)]/20 bg-white p-5 shadow-[var(--aa-shadow-md)] ring-1 ring-[var(--aa-primary)]/10 lg:sticky lg:top-28 lg:max-h-[min(100vh-8rem,32rem)] lg:self-start lg:overflow-y-auto lg:p-6"
               aria-label="Application form sections"
             >
               <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">On this page</p>

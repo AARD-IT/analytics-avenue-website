@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-const ENROLL_URL = "https://pages.razorpay.com/discussion";
+const ENROLL_URL = "https://edtech.analyticsavenue.in";
 
 const fontHeading = "font-[family-name:var(--font-heading)]";
 const fontBody = "font-[family-name:var(--font-body)]";

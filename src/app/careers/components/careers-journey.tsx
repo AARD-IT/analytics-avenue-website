@@ -80,7 +80,7 @@ export default function CareersJourney() {
       <div className="aa-container relative px-4 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,35%)_minmax(0,65%)] lg:gap-14 lg:items-start">
           <div style={reveal(0)}>
-            
+
 
             <h2
               id="careers-journey-title"
